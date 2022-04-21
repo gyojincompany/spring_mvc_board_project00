@@ -1,11 +1,12 @@
 package com.javagyojin.MVCboard.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.javagyojin.MVCboard.command.BCommand;
-import com.javagyojin.MVCboard.command.BListCommand;
+import com.javagyojin.MVCboard.command.*;
 
 @Controller
 public class BController {
@@ -22,7 +23,7 @@ public class BController {
 	}
 	
 	@RequestMapping(value = "/write_view")
-	public String write_view() {
+	public String write_view(Model model) {
 		
 		return "write_view";
 	}
@@ -40,7 +41,12 @@ public class BController {
 	}
 	
 	@RequestMapping(value = "/write")
-	public String write() {
+	public String write(HttpServletRequest request, Model model) {
+		
+		model.addAttribute("request", request);
+		
+		command = new BWriteCommand();
+		command.excute(model);		
 		
 		return "redirect:list";
 	}

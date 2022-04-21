@@ -73,4 +73,34 @@ public class BDao {
 		return dtos;
 	}
 	
+	public void write(String bName, String bTitle, String bContent) {
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		String query ="INSERT INTO mvc_board(bId, bName, bTitle, bContent, bHit, bGroup, bStep, bIndent) VALUES (mvc_board_seq.nextval, ?, ?, ?, 0, mvc_board_seq.currval, 0, 0)";
+		
+		try {
+			conn = dataSource.getConnection();
+			pstmt = conn.prepareStatement(query);
+			
+			pstmt.setString(1, bName);
+			pstmt.setString(2, bTitle);
+			pstmt.setString(3, bContent);
+			
+			int dbFlag = pstmt.executeUpdate();//성공이면 1 반환
+			
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 }
