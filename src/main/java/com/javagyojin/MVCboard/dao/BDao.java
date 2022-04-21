@@ -253,6 +253,69 @@ public class BDao {
 		
 	}
 	
+	public void reply(String bId, String bName, String bTitle, String bContent, String bGroup, String bStep, String bIndent) {
+		
+		replyShape(bGroup, bStep);
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		String query ="INSERT INTO mvc_board(bId, bName, bTitle, bContent, bHit, bGroup, bStep, bIndent) VALUES (mvc_board_seq.nextval, ?, ?, ?, 0, ?, ?, ?)";
+		
+		try {
+			conn = dataSource.getConnection();
+			pstmt = conn.prepareStatement(query);
+			
+			pstmt.setString(1, bName);
+			pstmt.setString(2, bTitle);
+			pstmt.setString(3, bContent);
+			pstmt.setInt(4, Integer.parseInt(bGroup));
+			pstmt.setInt(5, Integer.parseInt(bStep)+1);
+			pstmt.setInt(6, Integer.parseInt(bIndent)+1);
+			
+			int dbFlag = pstmt.executeUpdate();//성공이면 1 반환
+			
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	
+	public void replyShape(String strGroup, String strStep) {
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		String query ="UPDATE mvc_board set bStep = bStep + 1 where bGroup = ? and bStep > ?";
+		
+		try {
+			conn = dataSource.getConnection();
+			pstmt = conn.prepareStatement(query);			
+			
+			pstmt.setInt(1, Integer.parseInt(strGroup));
+			pstmt.setInt(2, Integer.parseInt(strStep));			
+			
+			int dbFlag = pstmt.executeUpdate();//성공이면 1 반환
+			
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
 	
 }
