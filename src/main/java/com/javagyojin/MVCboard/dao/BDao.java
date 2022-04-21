@@ -103,4 +103,48 @@ public class BDao {
 		}
 	}
 	
+	public BDto contentView(String strId) {
+		
+		BDto dto = null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = dataSource.getConnection();
+			String query = "SELECT * FROM mvc_board WHERE bId=?";
+			pstmt = conn.prepareStatement(query);//sql문 실행
+			pstmt.setInt(1, Integer.parseInt(strId));//문자열인 strId를 int로 변환
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				int bId = rs.getInt("bId");
+				String bName = rs.getString("bName");
+				String bTitle = rs.getString("bTitle");
+				String bContent = rs.getString("bContent");
+				Timestamp bDate = rs.getTimestamp("bDate");
+				int bHit = rs.getInt("bHit");
+				int bGroup = rs.getInt("bGroup");
+				int bStep = rs.getInt("bStep");
+				int bIndent = rs.getInt("bIndent");
+				
+				dto = new BDto(bId, bName, bTitle, bContent, bDate, bHit, bGroup, bStep, bIndent);
+				
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null ) rs.close();				
+				if(pstmt != null ) pstmt.close();
+				if(conn != null ) conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return dto;
+	}
+	
 }

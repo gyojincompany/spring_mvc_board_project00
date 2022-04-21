@@ -29,7 +29,12 @@ public class BController {
 	}
 	
 	@RequestMapping(value = "/content_view")
-	public String content_view() {
+	public String content_view(HttpServletRequest request, Model model) {
+		
+		model.addAttribute("request", request);
+		
+		command = new BContentCommand();
+		command.excute(model);	
 		
 		return "content_view";
 	}

@@ -21,8 +21,8 @@
 		<c:forEach items="${list }" var="dto">
 		<tr>
 			<td>${dto.bId }</td>
-			<td>${dto.bName }</td>
-			<td>${dto.bTitle }</td>
+			<td>${dto.bName }</td>			
+			<td><a href="content_view?bId=${dto.bId }">${dto.bTitle }</a></td>
 			<td>${dto.bDate }</td>
 			<td>${dto.bHit }</td>
 		</tr>
