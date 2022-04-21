@@ -105,6 +105,8 @@ public class BDao {
 	
 	public BDto contentView(String strId) {
 		
+		upHit(strId);
+		
 		BDto dto = null;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -293,7 +295,7 @@ public class BDao {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		
-		String query ="UPDATE mvc_board set bStep = bStep + 1 where bGroup = ? and bStep > ?";
+		String query ="UPDATE mvc_board SET bStep = bStep + 1 WHERE bGroup = ? and bStep > ?";
 		
 		try {
 			conn = dataSource.getConnection();
@@ -301,6 +303,36 @@ public class BDao {
 			
 			pstmt.setInt(1, Integer.parseInt(strGroup));
 			pstmt.setInt(2, Integer.parseInt(strStep));			
+			
+			int dbFlag = pstmt.executeUpdate();//성공이면 1 반환
+			
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	public void upHit(String strId) {
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		String query ="UPDATE mvc_board SET bHit = bHit + 1 WHERE bId = ?";
+		
+		try {
+			conn = dataSource.getConnection();
+			pstmt = conn.prepareStatement(query);			
+			
+			pstmt.setInt(1, Integer.parseInt(strId));
+			
 			
 			int dbFlag = pstmt.executeUpdate();//성공이면 1 반환
 			

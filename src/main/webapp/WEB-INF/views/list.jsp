@@ -12,23 +12,26 @@
 	<hr>
 	<table width="1000" cellpadding="0" cellspacing="0" border="1">
 		<tr>
-			<td align="center">번호</td>
-			<td align="center">글쓴이</td>
-			<td align="center">글제목</td>
-			<td align="center">등록일</td>
-			<td align="center">조회수</td>
+			<td align="center" bgcolor="#EAEAEA"><b>번호</b></td>
+			<td align="center" bgcolor="#EAEAEA"><b>글쓴이</b></td>
+			<td align="center" bgcolor="#EAEAEA"><b>글제목</b></td>
+			<td align="center" bgcolor="#EAEAEA"><b>등록일</b></td>
+			<td align="center" bgcolor="#EAEAEA"><b>조회수</b></td>
 		</tr>
 		<c:forEach items="${list }" var="dto">
 		<tr>
-			<td>${dto.bId }</td>
-			<td>${dto.bName }</td>			
-			<td><a href="content_view?bId=${dto.bId }">${dto.bTitle }</a></td>
-			<td>${dto.bDate }</td>
-			<td>${dto.bHit }</td>
+			<td align="center">${dto.bId }</td>
+			<td align="center">${dto.bName }</td>			
+			<td>
+				<c:forEach begin="1" end="${dto.bIndent }">&nbsp;&nbsp;&nbsp;</c:forEach>
+				<a href="content_view?bId=${dto.bId }">${dto.bTitle }</a>
+			</td>
+			<td align="center">${dto.bDate }</td>
+			<td align="center">${dto.bHit }</td>
 		</tr>
 		</c:forEach>
 		<tr>
-			<td colspan="5"><a href="write_view">글쓰기</a></td>
+			<td colspan="5" align="right"><a href="write_view">글쓰기 </a></td>
 		</tr>
 	
 	
