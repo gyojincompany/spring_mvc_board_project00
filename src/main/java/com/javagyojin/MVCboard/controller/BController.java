@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.javagyojin.MVCboard.command.*;
 
+
 @Controller
 public class BController {
 	
@@ -40,7 +41,12 @@ public class BController {
 	}
 	
 	@RequestMapping(value = "/reply_view")
-	public String reply_view() {
+	public String reply_view(HttpServletRequest request, Model model) {
+		
+		model.addAttribute("request", request);
+		
+		command = new BReplyViewCommand();
+		command.excute(model);	
 		
 		return "reply_view";
 	}
@@ -57,19 +63,34 @@ public class BController {
 	}
 	
 	@RequestMapping(value = "/modify")
-	public String modify() {
+	public String modify(HttpServletRequest request, Model model) {
+		
+		model.addAttribute("request", request);
+		
+		command = new BModifyCommand();
+		command.excute(model);
 		
 		return "redirect:list";
 	}
 	
 	@RequestMapping(value = "/delete")
-	public String delete() {
+	public String delete(HttpServletRequest request, Model model) {
+		
+		model.addAttribute("request", request);
+		
+		command = new BDeleteCommand();
+		command.excute(model);
 		
 		return "redirect:list";
 	}
 	
 	@RequestMapping(value = "/reply")
-	public String reply() {
+	public String reply(HttpServletRequest request, Model model) {
+		
+		model.addAttribute("request", request);
+		
+		command = new BReplyCommand();
+		command.excute(model);	
 		
 		return "redirect:list";
 	}
